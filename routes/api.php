@@ -19,4 +19,5 @@ Route::prefix('/video')->group(function () {
   Route::any('add', [ChurchController::class, 'add_video']);
   Route::any('get_by_id', [ChurchController::class, 'get_video']);
   Route::any('get_list_categories', [ChurchController::class, 'get_list_categories']);
+  Route::post('filter', [ChurchController::class, 'get_videos']);
 });

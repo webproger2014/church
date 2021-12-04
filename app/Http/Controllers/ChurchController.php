@@ -10,8 +10,23 @@ class ChurchController extends Controller
 {
 
   //Воззвращает видео по фильтру
-  public function get_videos() {
-//    $data_validated = $re
+  public function get_videos(Request $request) {
+    $data_validated = $request->validate([
+      'filter' => 'array',
+      'filter.user_id' => 'integer',
+      'filter.church_id' => 'integer',
+      'filter.category' => 'array',
+      'filter.tags' => 'array'
+    ]);
+
+    $filter = [];
+    if (isset($data_validated['filter'])) {
+      $filter = $data_validated['filter'];
+    }
+
+    $video = Church::get_videos($filter);
+
+    return response()->json($video);
   }
 
   public function get_video(Request $request) {

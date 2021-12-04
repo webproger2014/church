@@ -12,6 +12,18 @@ class Church extends Model
     protected $table = 'church_video';
     protected $primaryKey = 'video_id';
 
+    static public function get_videos($filter) {
+      $where = [];
+
+      if (isset($filter['church_id'])) {
+        $where[] = ['church_id', '=', $filter['church_id']];
+      }
+
+      $query = Church::where($where);
+
+      return $query->get();
+    }
+
     static public function get_video($id) {
       return Church::where('video_id', $id)->first();
     }
