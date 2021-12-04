@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Church;
+use App\Models\listCategories;
 use Illuminate\Http\Request;
 
 class ChurchController extends Controller
@@ -10,7 +11,7 @@ class ChurchController extends Controller
 
   //Воззвращает видео по фильтру
   public function get_videos() {
-
+//    $data_validated = $re
   }
 
   public function get_video(Request $request) {
@@ -26,7 +27,9 @@ class ChurchController extends Controller
       'id' => 'bail|required|integer'
     ]);
 
-    return response()->json(['msg']);
+    $categories = listCategories::get_category($data_validated['id']);
+
+    return response()->json($categories);
   }
 
   //Добавление видео в таблицу
