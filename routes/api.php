@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChurchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('/video')->group(function () {
+  Route::any('add', [ChurchController::class, 'add_video']);
+  Route::any('get_by_id', [ChurchController::class, 'get_video']);
+  Route::any('get_list_categories', [ChurchController::class, 'get_list_categories']);
 });
