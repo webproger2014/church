@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Church;
 use App\Models\listCategories;
+use App\Models\VideoCategory;
 use Illuminate\Http\Request;
+
 
 class ChurchController extends Controller
 {
@@ -16,7 +18,8 @@ class ChurchController extends Controller
       'filter.user_id' => 'integer',
       'filter.church_id' => 'integer',
       'filter.category' => 'array',
-      'filter.tags' => 'array'
+      'filter.tags' => 'array',
+      'filter.date' => 'array'
     ]);
 
     $filter = [];
@@ -66,5 +69,7 @@ class ChurchController extends Controller
     return response()->json(['id' => $video]);
   }
 
-
+  public function get_cats() {
+    return response()->json(VideoCategory::get_list_categories());
+  }
 }

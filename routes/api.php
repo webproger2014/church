@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChurchController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +18,20 @@ use App\Http\Controllers\ChurchController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+  Route::get('test', function () {
+    return Hash::make('jesushelp');
+  });
 
-Route::prefix('/video')->group(function () {
-  Route::any('add', [ChurchController::class, 'add_video']);
-  Route::any('get_by_id', [ChurchController::class, 'get_video']);
-  Route::any('get_list_categories', [ChurchController::class, 'get_list_categories']);
-  Route::post('filter', [ChurchController::class, 'get_videos']);
-});
+  Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('/video')->group(function () {
+      Route::post('add', [ChurchController::class, 'add_video']);
+      Route::post('get_by_id', [ChurchController::class, 'get_video']);
+      Route::post('get_list_categories', [ChurchController::class, 'get_list_categories']);
+      Route::post('filter', [ChurchController::class, 'get_videos']);
+      Route::post('get_cats', [ChurchController::class, 'get_cats']);
+    });
+  });
+
+  //> AUTH
+  Route::post('login', [Auth::class, 'auth']);
+  //< AUTH

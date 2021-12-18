@@ -17,5 +17,4 @@ class listCategories extends Model
       ->join('video_category', 'video_list_category.category_id', '=', 'video_category.id_category')
       ->get();
     }
-
 }
