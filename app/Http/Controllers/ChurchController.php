@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Church;
 use App\Models\listCategories;
 use App\Models\VideoCategory;
+use App\Models\VideoListTag;
 use Illuminate\Http\Request;
 
 
@@ -67,6 +68,16 @@ class ChurchController extends Controller
     $video = Church::add_video($data_validated);
 
     return response()->json(['id' => $video]);
+  }
+
+  public function get_tags_video(Request $request) {
+    $data_validated = $request->validate([
+      'id' => 'bail|required|integer'
+    ]);
+
+    $tags = VideoListTag::get_tags_video($data_validated['id']);
+
+    return response()->json($tags);
   }
 
   public function get_cats() {

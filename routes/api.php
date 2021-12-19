@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Hash;
       Route::post('add', [ChurchController::class, 'add_video']);
       Route::post('get_by_id', [ChurchController::class, 'get_video']);
       Route::post('get_list_categories', [ChurchController::class, 'get_list_categories']);
+      Route::post('get_tags_video', [ChurchController::class, 'get_tags_video']);
       Route::post('filter', [ChurchController::class, 'get_videos']);
       Route::post('get_cats', [ChurchController::class, 'get_cats']);
     });
