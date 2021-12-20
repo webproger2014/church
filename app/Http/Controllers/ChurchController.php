@@ -51,25 +51,6 @@ class ChurchController extends Controller
     return response()->json($categories);
   }
 
-  //Добавление видео в таблицу
-  public function add_video(Request $request) {
-
-    $data_validated = $request->validate([
-      'youtube_id' => 'bail|required|string',
-      'video_name' => 'bail|required|string',
-      'video_desc' => 'string',
-      'category' => 'integer'
-    ]);
-
-    $data_validated['church_id'] = 1;
-    $data_validated['user_id']   = 1;
-
-
-    $video = Church::add_video($data_validated);
-
-    return response()->json(['id' => $video]);
-  }
-
   public function get_tags_video(Request $request) {
     $data_validated = $request->validate([
       'id' => 'bail|required|integer'
@@ -82,5 +63,26 @@ class ChurchController extends Controller
 
   public function get_cats() {
     return response()->json(VideoCategory::get_list_categories());
+  }
+
+  public function add_video(Request $request) {
+    $data_validated = $request->validate([
+      'name' => 'bail|required|string',
+      'video_id' => 'bail|required|string',
+      'description' => 'string',
+      'church_id' => 'bail|required|integer',
+      'categories' => 'array'
+    ]);
+
+    $id_video = Church::add_video([
+      'user_id' => $request->user()->id,
+      'church_id' => $data_validated['church_id'],
+      'video_name' => $data_validated['name'],
+      'video_desc' => $data_validated['description'],
+      'youtube_id' => $data_validated['video_id'],
+    ]);
+
+    listCategories::set_category_video($id_video, $data_validated['categories']);
+    return response()->json(['id' => $id_video ]);
   }
 }

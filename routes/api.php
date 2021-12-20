@@ -31,6 +31,12 @@ use Illuminate\Support\Facades\Hash;
       Route::post('filter', [ChurchController::class, 'get_videos']);
       Route::post('get_cats', [ChurchController::class, 'get_cats']);
     });
+
+    Route::prefix('admin')->group(function () {
+      Route::prefix('video')->group(function () {
+        Route::post('add', [ChurchController::class, 'add_video']);
+      });
+    });
   });
 
   //> AUTH
