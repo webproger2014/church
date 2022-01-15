@@ -23,6 +23,10 @@ use Illuminate\Support\Facades\Hash;
   });
 
   Route::middleware('auth:sanctum')->group(function () {
+     Route::post('/info_account', function (Request $request) {
+      return response()->json($request->user());
+    });
+
     Route::prefix('/video')->group(function () {
       Route::post('add', [ChurchController::class, 'add_video']);
       Route::post('get_by_id', [ChurchController::class, 'get_video']);
