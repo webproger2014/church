@@ -54,7 +54,22 @@ class Church extends Model
       $db->leftJoin('city_list', 'church_list.city_id', 'city_list.id_city');
       $db->select('church_video.*', 'church_list.church_name', 'city_list.city');
       $db->orderBy('video_id', 'desc');
-      return $db->get();
+
+      $page = 1;
+      if (isset($filter['page'])) {
+        $page = $filter['page'];
+      }
+
+      $paginate = $db->paginate(10, ['*'], 'page', $page);
+
+      return [
+        'data' => $paginate->items(),
+        'count' => $paginate->count(),
+        'last_page' => $paginate->lastPage(),
+        'current_page' => $paginate->currentPage(),
+        'per_page' => $paginate->perPage(),
+        'total' => $paginate->total()
+      ];
     }
 
     static public function get_video($id) {
