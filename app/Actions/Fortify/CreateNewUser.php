@@ -27,9 +27,7 @@ class CreateNewUser implements CreatesNewUsers
             //    'max:11',
                 Rule::unique(User::class),
             ],
-            'email' => [
-                'string',
-            ],
+            'email' => 'nullable|string',
             'surname' => [
                 'required',
                 'string',

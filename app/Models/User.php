@@ -46,4 +46,31 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    static public function get_users() {
+      $db = User::where([]);
+
+      //Поиск по дате
+      if (isset($filter['date']) && !empty($filter['date'])) {
+        $db->whereBetween('created_at', $filter['date']);
+      }
+
+
+
+      $page = 1;
+      if (isset($filter['page'])) {
+        $page = $filter['page'];
+      }
+
+      $paginate = $db->paginate(10, ['*'], 'page', $page);
+
+      return [
+        'data' => $paginate->items(),
+        'count' => $paginate->count(),
+        'last_page' => $paginate->lastPage(),
+        'current_page' => $paginate->currentPage(),
+        'per_page' => $paginate->perPage(),
+        'total' => $paginate->total()
+      ];
+    }
 }
