@@ -30,4 +30,10 @@ class listCategories extends Model
 
       listCategories::insert($data);
     }
+
+    static public function del_categories_video($id_video) {
+      listCategories::where('video_id', $id_video)->delete();
+    }
+    
+
 }

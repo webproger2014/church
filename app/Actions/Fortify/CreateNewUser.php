@@ -36,10 +36,7 @@ class CreateNewUser implements CreatesNewUsers
                 'required',
                 'string',
             ],
-            'last_name' => [
-                'required',
-                'string',
-            ],
+            'last_name' => 'nullable|string',
             'sex' => [
                 'required',
                 'int',

@@ -69,8 +69,9 @@ class ChurchController extends Controller
     $data_validated = $request->validate([
       'name' => 'bail|required|string',
       'video_id' => 'bail|required|string',
-      'description' => 'string',
+      'description' => 'nullable|string',
       'church_id' => 'bail|required|integer',
+      'date_event' => 'bail|required|string',
       'categories' => 'array'
     ]);
 
@@ -80,9 +81,42 @@ class ChurchController extends Controller
       'video_name' => $data_validated['name'],
       'video_desc' => $data_validated['description'],
       'youtube_id' => $data_validated['video_id'],
+      'date_event' => $data_validated['date_event'],
     ]);
 
     listCategories::set_category_video($id_video, $data_validated['categories']);
     return response()->json(['id' => $id_video ]);
+  }
+
+  public function edit_video(Request $request) {
+    $video_id = $request->validate([
+      'video_id' => 'bail|integer'
+    ]);
+
+    $info_validated = $request->validate([
+      'date_event' => 'bail|required|string',
+      'video_desc' => 'nullable|string',
+      'video_name' => 'bail|string',
+      'youtube_id' => 'bail|string'
+    ]);
+
+    $categories = $request->validate([
+      'categories' => 'bail|array'
+    ]);
+
+    Church::update_video($video_id['video_id'], $info_validated);
+    listCategories::del_categories_video($video_id['video_id']);
+    listCategories::set_category_video($video_id['video_id'], $categories['categories']);
+    return response()->json();
+  }
+
+   public function active_video(Request $request) {
+    $data = $request->validate([
+      'video_id' => 'bail|integer',
+      'status' => 'bail|integer'
+    ]);
+    
+    Church::set_status_video($data['video_id'], $data['status']);
+    return response()->json();
   }
 }

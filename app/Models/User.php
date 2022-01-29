@@ -62,7 +62,7 @@ class User extends Authenticatable
         $page = $filter['page'];
       }
 
-      $paginate = $db->paginate(10, ['*'], 'page', $page);
+      $paginate = $db->paginate(100, ['*'], 'page', $page);
 
       return [
         'data' => $paginate->items(),

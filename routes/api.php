@@ -41,6 +41,8 @@ use Illuminate\Support\Facades\Hash;
     Route::prefix('admin')->group(function () {
       Route::prefix('video')->group(function () {
         Route::post('add', [ChurchController::class, 'add_video']);
+        Route::post('edit', [ChurchController::class, 'edit_video']);
+        Route::post('active_video', [ChurchController::class, 'active_video']);
       });
       Route::prefix('users')->group(function () {
         Route::post('get_users', [UserController::class, 'get_users']);

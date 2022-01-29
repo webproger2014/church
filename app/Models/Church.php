@@ -11,7 +11,9 @@ class Church extends Model
 
     protected $table = 'church_video';
     protected $primaryKey = 'video_id';
-    protected $dateFormat = '0000:00:00 00:00:00';
+    protected $casts = [
+      'date_event' => 'date:Y-m-d'
+    ];
 
     static public function get_videos($filter) {
       $db = Church::where([]);
@@ -20,6 +22,15 @@ class Church extends Model
       if (isset($filter['church_id'])) {
         $db->where('church_id', $filter['church_id']);
       }
+
+      //> Активность
+      $status_video = 1;
+      if (isset($filter['status'])) {
+        $status_video = $filter['status'];
+      }
+
+      $db->where('status', $status_video);
+      //< Активность
 
       // Поиск по категориям
       if (isset($filter['category']) && !empty($filter['category'])) {
@@ -47,7 +58,7 @@ class Church extends Model
 
       //Поиск по дате
       if (isset($filter['date']) && !empty($filter['date'])) {
-        $db->whereBetween('created_at', $filter['date']);
+        $db->whereBetween('date_event', $filter['date']);
       }
 
       $db->leftJoin('church_list', 'church_video.church_id', 'church_list.church_id');
@@ -78,5 +89,13 @@ class Church extends Model
 
     static public function add_video($info) {
       return Church::insertGetId($info);
+    }
+
+    static public function update_video($id, $info) {
+      Church::where('video_id', $id)->update($info);
+    }
+
+    static public function set_status_video($id, $status) {
+      Church::where('video_id', $id)->update(['status' => $status]);
     }
 }
